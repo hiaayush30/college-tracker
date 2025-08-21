@@ -3,14 +3,17 @@ import dotenv from "dotenv"
 import userRouter from "./routes/user.route.js";
 import { connectDB } from "./utils/db.js";
 import cors from "cors"
+import cookieParser from "cookie-parser";
 
 dotenv.config()
 
 const app = express();
-app.use(express.json())
 app.use(cors({
     origin: process.env.FE_URL,
+    credentials:true //allow cookies
 }))
+app.use(express.json())
+app.use(cookieParser())
 
 app.get("/health", (req, res) => {
     res.json({
