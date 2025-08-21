@@ -1,4 +1,9 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+export var Role;
+(function (Role) {
+    Role[Role["user"] = 0] = "user";
+    Role[Role["admin"] = 1] = "admin";
+})(Role || (Role = {}));
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -18,7 +23,8 @@ const UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ["user", "admin"]
+        enum: Role,
+        default: "user"
     }
 }, {
     timestamps: true, // createdAt, updatedAt

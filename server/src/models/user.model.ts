@@ -9,6 +9,11 @@ export interface IUser extends Document {
     updatedAt: Date;
 }
 
+export enum Role {
+    "user",
+    "admin"
+}
+
 const UserSchema: Schema<IUser> = new Schema(
     {
         username: {
@@ -29,7 +34,8 @@ const UserSchema: Schema<IUser> = new Schema(
         },
         role: {
             type: String,
-            enum: ["user", "admin"]
+            enum: Role,
+            default:"user"
         }
     },
     {

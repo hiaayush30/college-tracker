@@ -1,11 +1,18 @@
 import type { Request, Response } from "express";
 import { LoginSchema, RegisterSchema } from "../schema/user.schema.js";
-import User from "../models/user.model.js";
+import User, { Role } from "../models/user.model.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import jwt from "jsonwebtoken";
+import { type ObjectId } from "mongoose";
+
+export interface JWTPayload {
+    _id: ObjectId,
+    username: string,
+    email: string,
+    role: Role
+}
 
 
-//res.cookies.token
 export const registerUser = async (req: Request, res: Response): Promise<any> => {
     try {
         const parsed = RegisterSchema.safeParse(req.body);
@@ -44,7 +51,6 @@ export const registerUser = async (req: Request, res: Response): Promise<any> =>
 
 export const login = async (req: Request, res: Response): Promise<any> => {
     try {
-        console.log(req.body)
         const parsed = LoginSchema.safeParse(req.body);
         if (!parsed.success) {
             console.log(parsed.error.format())
@@ -67,7 +73,12 @@ export const login = async (req: Request, res: Response): Promise<any> => {
                 error: "invalid credentials"
             })
         }
-        const token = jwt.sign({ _id: existing._id, username: existing.username, email: existing.email }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({
+            _id: existing._id,
+            username: existing.username,
+            email: existing.email,
+            role: existing.role
+        }, process.env.JWT_SECRET!, {
             expiresIn: "1d"
         })
         res.cookie("token", "Bearer_" + token, {

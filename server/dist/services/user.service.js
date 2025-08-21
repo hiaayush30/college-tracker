@@ -1,8 +1,8 @@
 import { LoginSchema, RegisterSchema } from "../schema/user.schema.js";
-import User from "../models/user.model.js";
+import User, { Role } from "../models/user.model.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import jwt from "jsonwebtoken";
-//res.cookies.token
+import {} from "mongoose";
 export const registerUser = async (req, res) => {
     try {
         const parsed = RegisterSchema.safeParse(req.body);
@@ -40,7 +40,6 @@ export const registerUser = async (req, res) => {
 };
 export const login = async (req, res) => {
     try {
-        console.log(req.body);
         const parsed = LoginSchema.safeParse(req.body);
         if (!parsed.success) {
             console.log(parsed.error.format());
@@ -63,7 +62,12 @@ export const login = async (req, res) => {
                 error: "invalid credentials"
             });
         }
-        const token = jwt.sign({ _id: existing._id, username: existing.username, email: existing.email }, process.env.JWT_SECRET, {
+        const token = jwt.sign({
+            _id: existing._id,
+            username: existing.username,
+            email: existing.email,
+            role: existing.role
+        }, process.env.JWT_SECRET, {
             expiresIn: "1d"
         });
         res.cookie("token", "Bearer_" + token, {
