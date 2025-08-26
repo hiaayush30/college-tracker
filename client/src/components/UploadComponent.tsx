@@ -5,10 +5,9 @@ import { Upload } from "lucide-react"
 interface props {
     file: File | undefined;
     setFile: Dispatch<SetStateAction<File | undefined>>
-    statusMessage: string;
 }
 
-function UploadComponent({ file, setFile, statusMessage }: props) {
+function UploadComponent({ file, setFile }: props) {
     const [localFileURL, setLocalFileURL] = useState<string | undefined>(undefined)
     const fileInputRef = useRef<null | HTMLInputElement>(null)
 
@@ -46,7 +45,6 @@ function UploadComponent({ file, setFile, statusMessage }: props) {
                         className="size-6 group-hover:scale-110 transition-all duration-200 cursor-pointer"
                     />
                     <div>Upload File <p className="text-red-500">*Max 5 Mb</p></div>
-                    {statusMessage ? statusMessage : ""}
                 </div>
 
                 {localFileURL && file && (

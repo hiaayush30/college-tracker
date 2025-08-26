@@ -4,7 +4,7 @@ import userRouter from "./routes/user.route.js";
 import { connectDB } from "./utils/db.js";
 import cors from "cors"
 import cookieParser from "cookie-parser";
-import classRouter from "./routes/class.route.js";
+import assignmentRouter from "./routes/assignment.route.js";
 
 dotenv.config()
 
@@ -23,7 +23,7 @@ app.get("/health", (req, res) => {
 })
 
 app.use("/user", userRouter)
-app.use("/class", classRouter)
+app.use("/class", assignmentRouter)
 
 connectDB()
     .then(() => {
