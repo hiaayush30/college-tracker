@@ -32,14 +32,14 @@ function AddAssignment() {
     try {
       if (file) {
         const checksum = await computeSHA256(file);
-        const signedUrlResult = await getSignedURLAction(file.type, file.size, checksum)
-        if (signedUrlResult.failure) {
-          alert("failed in s3")
-          setLoading(false)
-        }
+        // const signedUrlResult = await getSignedURLAction(file.type, file.size, checksum)
+        const { data } = await axios.post<{ url: string }>("/s3/getSignedUrl", {
+          checksum,
+          fileType: file.type,
+          size: file.size
+        })
 
-        if (!signedUrlResult.success) throw new Error(signedUrlResult.failure)
-        const { url, mediaId } = signedUrlResult?.success
+        const { url } = data;
 
         await axios.put(url, file, {
           headers: {
@@ -47,8 +47,6 @@ function AddAssignment() {
           }
         })
         alert("PDF uploaded to S3")
-
-        // await createPost({ content, mediaId });
       }
     } catch (error) {
       console.log(error)
