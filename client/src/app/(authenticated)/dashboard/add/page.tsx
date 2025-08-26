@@ -5,6 +5,7 @@ import { SelectComponent } from '@/components/select'
 import { Button } from '@/components/ui/button'
 import UploadComponent from '@/components/UploadComponent'
 import axios from 'axios'
+import { Loader } from 'lucide-react'
 import React, { FormEvent, useState } from 'react'
 
 function AddAssignment() {
@@ -30,8 +31,8 @@ function AddAssignment() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!program || !semester) {
-      return alert("program and semester required");
+    if (!program || !semester || !date) {
+      return alert("All fields are required!");
     }
     setLoading(true)
     try {
@@ -107,7 +108,7 @@ function AddAssignment() {
             type='submit'
             disabled={loading}
             className='cursor-pointer mx-auto'>
-            {loading ? "Uploading ..." : "Upload"}
+            {loading ? <Loader className='animate-spin'/> : "Upload"}
           </Button>
         </div>
       </form>

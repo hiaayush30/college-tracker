@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import crypto from "crypto"
 import { getSignedUploadURLSchema } from "../schema/s3.schema.js"
@@ -51,12 +51,26 @@ export const getSignedUploadURL = async (req: Request, res: Response) => {
         })
         return res.status(200).json({
             url: signedURL,
-            fileUrl : `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${fileName}`
+            fileUrl: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${fileName}`
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             error: "Internal server error"
         })
+    }
+}
+
+
+export const deleteObject = async (fileUrl: string) => {
+    try {
+        const key = fileUrl.split("/").slice(-1)[0]
+        const deleteParams = {
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: key,
+        }
+        await s3.send(new DeleteObjectCommand(deleteParams))
+    } catch (error) {
+        console.log(error);
     }
 }

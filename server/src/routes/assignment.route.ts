@@ -6,6 +6,6 @@ const assignmentRouter = Router();
 
 assignmentRouter.post("/",adminMiddleware, addAssigment);
 assignmentRouter.put("/",adminMiddleware, updateAssignment);
-assignmentRouter.delete("/",adminMiddleware, deleteAssignment);
+assignmentRouter.delete("/:id",adminMiddleware, deleteAssignment);
 
 export default assignmentRouter;
