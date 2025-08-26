@@ -32,7 +32,7 @@ function UploadComponent({ file, setFile }: props) {
                 <div
                     onClick={() => fileInputRef.current?.click()}
                     title="upload file"
-                    className="flex cursor-pointer group flex-col items-center gap-5 justify-center border-3 border-slate-200 border-dashed hover:bg-stone-800 bg-stone-900 p-3 rounded-lg">
+                    className="flex cursor-pointer group flex-col items-center gap-5 justify-center border-3 border-slate-200 border-dashed dark:hover:bg-stone-800 dark:bg-stone-900 bg-slate-200 hover:bg-slate-300 p-3 rounded-lg">
                     <input
                         ref={fileInputRef}
                         type="file"

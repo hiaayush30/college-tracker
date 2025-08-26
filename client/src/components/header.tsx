@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import { ToggleButton } from './toggle-button'
 
 const menuItems:{name:string,href:string}[] = [
     // { name: 'Features', href: '#link' },
@@ -79,6 +80,7 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                                <ToggleButton/>
                                 <Button
                                     asChild
                                     variant="outline"

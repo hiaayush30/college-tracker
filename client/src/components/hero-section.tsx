@@ -5,6 +5,7 @@ import { TextEffect } from '@/components/ui/text-effect'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import { HeroHeader } from './header'
 import { LogoCloud } from './logo-cloud'
+import { TiltImage } from './tilt-image'
 
 const transitionVariants = {
     item: {
@@ -66,53 +67,8 @@ export default function HeroSection() {
                                     ...transitionVariants,
                                 }}
                                 className="mt-12">
-                                {/* <form
-                                    action=""
-                                    className="mx-auto max-w-sm">
-                                    <div className="bg-background has-[input:focus]:ring-muted relative grid grid-cols-[1fr_auto] items-center rounded-[calc(var(--radius)+0.5rem)] border pr-2 shadow shadow-zinc-950/5 has-[input:focus]:ring-2">
-                                        <Mail className="pointer-events-none absolute inset-y-0 left-4 my-auto size-4" />
 
-                                        <input
-                                            placeholder="Your mail address"
-                                            className="h-12 w-full bg-transparent pl-12 focus:outline-none"
-                                            type="email"
-                                        />
-
-                                        <div className="md:pr-1.5 lg:pr-0">
-                                            <Button
-                                                aria-label="submit"
-                                                size="sm"
-                                                className="rounded-(--radius)">
-                                                <span className="hidden md:block">Get Started</span>
-                                                <SendHorizonal
-                                                    className="relative mx-auto size-5 md:hidden"
-                                                    strokeWidth={2}
-                                                />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </form> */}
-
-                                <div className="relative mx-auto mt-32 max-w-2xl text-left">
-                                    {/* Main Image */}
-                                    <img
-                                        src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Background"
-                                        className="rounded-2xl border border-border/50 shadow-2xl object-cover 
-               brightness-90 contrast-110 saturate-120 
-               [mask-image:linear-gradient(to_bottom,#000_80%,transparent_100%)]"
-                                    />
-
-                                    {/* Overlay Gradient */}
-                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/70 via-black/20 to-transparent mix-blend-multiply"></div>
-
-                                    {/* Fancy Grid Overlay */}
-                                    <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] 
-                  [background-size:16px_16px] opacity-10 mix-blend-overlay"></div>
-
-                                    {/* Glow Effect */}
-                                    <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_-20px_rgba(59,130,246,0.6)]"></div>
-                                </div>
+                               <TiltImage/>
 
                             </AnimatedGroup>
                         </div>

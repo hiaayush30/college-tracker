@@ -4,7 +4,8 @@ import userRouter from "./routes/user.route.js";
 import { connectDB } from "./utils/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import classRouter from "./routes/class.route.js";
+import assignmentRouter from "./routes/assignment.route.js";
+import { s3Router } from "./routes/s3.route.js";
 dotenv.config();
 const app = express();
 app.use(cors({
@@ -19,7 +20,8 @@ app.get("/health", (req, res) => {
     });
 });
 app.use("/user", userRouter);
-app.use("/class", classRouter);
+app.use("/assignment", assignmentRouter);
+app.use("/s3", s3Router);
 connectDB()
     .then(() => {
     app.listen(process.env.PORT, () => {

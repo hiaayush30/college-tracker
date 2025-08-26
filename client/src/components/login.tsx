@@ -1,13 +1,22 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Loader } from 'lucide-react'
 import Link from 'next/link'
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react'
 
-export default function LoginPage() {
+interface props {
+    setUsername: Dispatch<SetStateAction<string>>;
+    setPassword: Dispatch<SetStateAction<string>>;
+    handleSubmit: (e:FormEvent) => Promise<void>
+    loading:boolean;
+}
+
+export default function LoginPage({ handleSubmit, setPassword, setUsername,loading }: props) {
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
             <form
-                action=""
+                onSubmit={handleSubmit}
                 className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
                 <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
                     <div className="text-center">
@@ -29,7 +38,8 @@ export default function LoginPage() {
                                 Username
                             </Label>
                             <Input
-                                type="email"
+                                onChange={e => setUsername(e.target.value)}
+                                type="text"
                                 required
                                 name="email"
                                 id="email"
@@ -55,6 +65,7 @@ export default function LoginPage() {
                                 </Button>
                             </div>
                             <Input
+                                onChange={e => setPassword(e.target.value)}
                                 type="password"
                                 required
                                 name="pwd"
@@ -63,7 +74,7 @@ export default function LoginPage() {
                             />
                         </div>
 
-                        <Button className="w-full">Sign In</Button>
+                        <Button className="w-full">{loading ? <Loader className='animate-spin'/>:"Sign In"}</Button>
                     </div>
 
                     {/* <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
