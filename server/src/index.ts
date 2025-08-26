@@ -23,7 +23,7 @@ app.get("/health", (req, res) => {
 })
 
 app.use("/user", userRouter)
-app.use("/class", assignmentRouter)
+app.use("/assignment", assignmentRouter)
 
 connectDB()
     .then(() => {
