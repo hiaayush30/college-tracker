@@ -1,5 +1,4 @@
 import * as React from "react"
-
 import {
     Select,
     SelectContent,
@@ -10,23 +9,33 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-interface props {
+interface Props {
     defaultLabel: string
-    label: string;
+    label: string
     args: string[]
+    value: string
+    setValue: React.Dispatch<React.SetStateAction<string>>
 }
 
-export function SelectComponent({ defaultLabel, label, args }: props) {
+export function SelectComponent({ defaultLabel, label, args, setValue, value }: Props) {
     return (
-        <Select>
+        <Select
+            value={value} 
+            onValueChange={(val) => setValue(val)}
+        >
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder={label} />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>{defaultLabel}</SelectLabel>
-                    {args.map(arg => (
-                        <SelectItem key={arg} value={arg}>{arg}</SelectItem>
+                    {args.map((arg) => (
+                        <SelectItem
+                            key={arg}
+                            value={arg}
+                        >
+                            {arg}
+                        </SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>

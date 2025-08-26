@@ -22,7 +22,7 @@ export const addAssignmentSchema = z.object({
     due: z.date(),
     program: z.enum(ProgramEnum),
     semester: z.enum(SemesterEnum),
-    url: z.string()
+    url: z.string().optional()
 })
 
 export const updateAssignmentSchema = z.object({

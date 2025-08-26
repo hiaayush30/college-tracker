@@ -5,6 +5,7 @@ import { connectDB } from "./utils/db.js";
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import assignmentRouter from "./routes/assignment.route.js";
+import { s3Router } from "./routes/s3.route.js";
 
 dotenv.config()
 
@@ -24,6 +25,7 @@ app.get("/health", (req, res) => {
 
 app.use("/user", userRouter)
 app.use("/assignment", assignmentRouter)
+app.use("/s3", s3Router)
 
 connectDB()
     .then(() => {

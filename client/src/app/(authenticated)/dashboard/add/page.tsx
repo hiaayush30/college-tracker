@@ -10,6 +10,8 @@ import React, { FormEvent, useState } from 'react'
 function AddAssignment() {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [semester, setSemester] = useState("");
+  const [program, setProgram] = useState("");
 
   const [file, setFile] = useState<File | undefined>(undefined);
 
@@ -28,18 +30,22 @@ function AddAssignment() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    if (!program || !semester) {
+      return alert("program and semester required");
+    }
     setLoading(true)
     try {
+      let fileUrl = "";
       if (file) {
         const checksum = await computeSHA256(file);
-        // const signedUrlResult = await getSignedURLAction(file.type, file.size, checksum)
-        const { data } = await axios.post<{ url: string }>("/s3/getSignedUrl", {
+        const { data } = await axios.post<{ url: string, fileUrl: string }>("/s3/getSignedUrl", {
           checksum,
           fileType: file.type,
           size: file.size
         })
 
         const { url } = data;
+        fileUrl = data.fileUrl;
 
         await axios.put(url, file, {
           headers: {
@@ -48,6 +54,17 @@ function AddAssignment() {
         })
         alert("PDF uploaded to S3")
       }
+      await axios.post("/assignment", {
+        type,
+        subject,
+        due: date,
+        url: fileUrl == "" ? fileUrl : null,
+        program,
+        semester
+      })
+
+      alert("Assignment Uploaded!")
+
     } catch (error) {
       console.log(error)
       alert("Failed to upload")
@@ -81,8 +98,8 @@ function AddAssignment() {
         </div>
         <div className='flex flex-col md:flex-row items-start gap-5 md:items-end'>
           <DatePicker label={"Due Date"} date={date} open={open} setDate={setDate} setOpen={setOpen} />
-          <SelectComponent args={["BCA", "BBA"]} defaultLabel='Class' label='Enter Program' />
-          <SelectComponent args={["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]} defaultLabel='Semester' label='Enter Semester' />
+          <SelectComponent value={program} setValue={setProgram} args={["BCA", "BBA"]} defaultLabel='Class' label='Enter Program' />
+          <SelectComponent value={semester} setValue={setSemester} args={["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]} defaultLabel='Semester' label='Enter Semester' />
         </div>
         <div className='flex flex-col'>
           <UploadComponent file={file} setFile={setFile} />

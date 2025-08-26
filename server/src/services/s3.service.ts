@@ -34,9 +34,10 @@ export const getSignedUploadURL = async (req: Request, res: Response) => {
         if (size > maxFileSIze) {
             return { failure: "File can't be larger than 10MB" }
         }
+        const fileName = generatedFileName();
         const putObjectCommand = new PutObjectCommand({
             Bucket: process.env.AWS_BUCKET_NAME!,
-            Key: generatedFileName(),   // it is the file name as it appears in s3 and must be unique
+            Key: fileName,   // it is the file name as it appears in s3 and must be unique
             // and this name also appears in th epublic url of the file so i need it to be random there so people can't guess it
             ContentLength: size,
             ContentType: fileType,
@@ -49,7 +50,8 @@ export const getSignedUploadURL = async (req: Request, res: Response) => {
             expiresIn: 60  //seconds
         })
         return res.status(200).json({
-            url: signedURL
+            url: signedURL,
+            fileUrl : `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${fileName}`
         })
     } catch (error) {
         console.log(error)
