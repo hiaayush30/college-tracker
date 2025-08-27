@@ -1,0 +1,53 @@
+// translations.ts
+
+export const translations = {
+    en: {
+        getStarted: "Get Started",
+        whatToDo: "What do you want to do today?",
+        addAssignments: "Add Assignments",
+        globalChatroom: "Global Chatroom",
+
+        addAnAssignment: "Add an Assignment",
+        assignmentType: "Assignment type:",
+        subjectName: "Subject Name:",
+        dueDate: "Due Date",
+        selectDate: "Select date",
+        enterProgram: "Enter Program",
+        enterSemester: "Enter Semester",
+        uploadFile: "Upload File",
+        uploadLimit: "*Max 5 Mb",
+        uploadButton: "Upload",
+        addAssignment: "Add Assignment",
+        viewAssignments: "View Assignments",
+        profile: "Profile",
+        settings: "Settings",
+        logout: "Logout",
+        features: "Features",
+        account: "Account",
+    },
+
+    ko: {
+        getStarted: "시작하기",
+        whatToDo: "오늘 무엇을 하시겠습니까?",
+        addAssignments: "과제 추가",
+        viewAssignments: "과제 보기",
+        globalChatroom: "글로벌 채팅방",
+
+        addAnAssignment: "과제 추가하기",
+        assignmentType: "과제 유형:",
+        subjectName: "과목 이름:",
+        dueDate: "마감일",
+        selectDate: "날짜 선택",
+        enterProgram: "프로그램 입력",
+        enterSemester: "학기 입력",
+        uploadFile: "파일 업로드",
+        uploadLimit: "*최대 5Mb",
+        uploadButton: "업로드",
+        addAssignment: "과제 추가",
+        profile: "프로필",
+        settings: "설정",
+        logout: "로그아웃",
+        features: "기능",
+        account: "계정",
+    },
+}

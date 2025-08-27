@@ -1,3 +1,6 @@
+"use client"
+import { translations } from '@/lib/translations'
+import { useLanguageStore } from '@/store/useLanguageStore'
 import { Cross, Eye, MessageSquareDot } from 'lucide-react'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -8,20 +11,22 @@ interface ICard {
     logo: ReactNode
 }
 
-const cardArray: ICard[] = [
-    { href: "/dashboard/add", logo: <Cross size={24} aria-hidden />, title: "Add Assignments" },
-    { href: "/dashboard/view", logo: <Eye size={24} aria-hidden />, title: "View Assignments" },
-    { href: "/dashboard/chat", logo: <MessageSquareDot size={24} aria-hidden />, title: "Global Chatroom" },
-]
-
 export default function GetStarted() {
+    const { language } = useLanguageStore();
+    const t = translations[language];
+    const cardArray: ICard[] = [
+        { href: "/dashboard/add", logo: <Cross size={24} aria-hidden />, title: t.addAssignments },
+        { href: "/dashboard/view", logo: <Eye size={24} aria-hidden />, title: t.viewAssignments },
+        { href: "/dashboard/chat", logo: <MessageSquareDot size={24} aria-hidden />, title: t.globalChatroom },
+    ]
+
     return (
         <section className="w-full bg-zinc-50 py-16 md:py-32 dark:bg-transparent">
             <div className="mx-auto max-w-6xl px-6 text-center">
                 {/* Heading */}
                 <div>
-                    <h2 className="text-4xl font-semibold lg:text-5xl">Get Started</h2>
-                    <p className="mt-4">What do you want to do today?</p>
+                    <h2 className="text-4xl font-semibold lg:text-5xl">{t.getStarted}</h2>
+                    <p className="mt-4">{t.whatToDo}</p>
                 </div>
 
                 {/* Cards Grid */}

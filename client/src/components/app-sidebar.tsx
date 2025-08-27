@@ -13,31 +13,26 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
-import { Plus, List, User, Settings, LogOut, Sun, Moon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { useTheme } from "next-themes"
+import { Plus, List, User, Settings, LogOut } from "lucide-react"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { useLanguageStore } from "@/store/useLanguageStore"
+import { translations } from "@/lib/translations"
+import { ToggleButton } from "./toggle-button"
 
 export function AppSidebar() {
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
-  const [language, setLanguage] = React.useState("en")
+  const { language, setLanguage } = useLanguageStore()
+  const t = translations[language]
 
   const links = [
-    { href: "/dashboard/add", label: "Add Assignment", icon: Plus },
-    { href: "/dashboard/view", label: "View Assignments", icon: List },
+    { href: "/dashboard/add", label: t.addAssignment, icon: Plus },
+    { href: "/dashboard/view", label: t.viewAssignments, icon: List },
   ]
 
   const accountLinks = [
-    { href: "/profile", label: "Profile", icon: User },
-    { href: "/settings", label: "Settings", icon: Settings },
-    { href: "/logout", label: "Logout", icon: LogOut },
+    { href: "/profile", label: t.profile, icon: User },
+    { href: "/settings", label: t.settings, icon: Settings },
+    { href: "/logout", label: t.logout, icon: LogOut },
   ]
 
   return (
@@ -46,7 +41,7 @@ export function AppSidebar() {
         {/* Features */}
         <div>
           <SidebarGroup>
-            <SidebarGroupLabel>Features</SidebarGroupLabel>
+            <SidebarGroupLabel>{t.features}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {links.map((link) => (
@@ -64,10 +59,10 @@ export function AppSidebar() {
           </SidebarGroup>
         </div>
 
-        {/* Account */}
+        {/* Account + Controls */}
         <div>
           <SidebarGroup>
-            <SidebarGroupLabel>Account</SidebarGroupLabel>
+            <SidebarGroupLabel>{t.account}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {accountLinks.map((link) => (
@@ -81,40 +76,25 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
+
+              {/* Theme + Language Switch */}
+              <div className="mt-4 flex gap-2">
+                <ToggleButton />
+                <Select
+                  value={language}
+                  onValueChange={(val) => setLanguage(val as "en" | "ko")}
+                >
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue placeholder="Language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="ko">한국어</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </SidebarGroupContent>
           </SidebarGroup>
-
-          {/* Theme + Language Controls */}
-          <div className="p-3 space-y-3">
-            {/* Theme toggle */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full flex items-center gap-2 cursor-pointer"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <>
-                  <Sun className="h-4 w-4" /> Light Mode
-                </>
-              ) : (
-                <>
-                  <Moon className="h-4 w-4" /> Dark Mode
-                </>
-              )}
-            </Button>
-
-            {/* Language Select */}
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="ko">Korean</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
       </SidebarContent>
     </Sidebar>

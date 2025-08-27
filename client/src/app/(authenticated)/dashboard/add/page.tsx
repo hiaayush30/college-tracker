@@ -3,14 +3,18 @@ import { DatePicker } from '@/components/date-picker'
 import { SelectComponent } from '@/components/select'
 import { Button } from '@/components/ui/button'
 import UploadComponent from '@/components/UploadComponent'
+import { translations } from '@/lib/translations'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useLanguageStore } from '@/store/useLanguageStore'
 import axios from 'axios'
 import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 function AddAssignment() {
+  const { language } = useLanguageStore();
+  const t = translations[language]
   const { user } = useAuthStore();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -35,9 +39,9 @@ function AddAssignment() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!user || user.role == "user"){
+    if (!user || user.role == "user") {
       toast("You need to be an admin to upload!")
-      return 
+      return
     }
     if (!program || !semester || !date) {
       toast("All fields are required!");
@@ -87,11 +91,11 @@ function AddAssignment() {
   }
   return (
     <div>
-      <h2 className='text-3xl'> Add an Assignment </h2>
+      <h2 className='text-3xl'> {t.addAnAssignment} </h2>
       <form onSubmit={handleSubmit} className='my-5 flex flex-col gap-6  justify-center'>
         <div className='flex md:flex-row flex-col gap-3 items-start my-3'>
           <div className='text-xl'>
-            <label className='p-2' htmlFor='type'>Assignment type:</label>
+            <label className='p-2' htmlFor='type'>{t.assignmentType}:</label>
             <input
               onChange={(e) => setType(e.target.value)}
               required id='type'
@@ -99,7 +103,7 @@ function AddAssignment() {
               type='text' />
           </div>
           <div className='text-xl'>
-            <label className='p-2' htmlFor='subject'>Subject Name:</label>
+            <label className='p-2' htmlFor='subject'>{t.subjectName}:</label>
             <input
               onChange={(e) => setSubject(e.target.value)}
               required
@@ -109,9 +113,9 @@ function AddAssignment() {
           </div>
         </div>
         <div className='flex flex-col md:flex-row items-start gap-5 md:items-end'>
-          <DatePicker label={"Due Date"} date={date} open={open} setDate={setDate} setOpen={setOpen} />
-          <SelectComponent value={program} setValue={setProgram} args={["BCA", "BBA"]} defaultLabel='Class' label='Enter Program' />
-          <SelectComponent value={semester} setValue={setSemester} args={["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]} defaultLabel='Semester' label='Enter Semester' />
+          <DatePicker label={t.dueDate} date={date} open={open} setDate={setDate} setOpen={setOpen} />
+          <SelectComponent value={program} setValue={setProgram} args={["BCA", "BBA"]} defaultLabel='Class' label={t.enterProgram} />
+          <SelectComponent value={semester} setValue={setSemester} args={["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]} defaultLabel='Semester' label={t.enterSemester} />
         </div>
         <div className='flex flex-col'>
           <UploadComponent file={file} setFile={setFile} />
@@ -119,7 +123,7 @@ function AddAssignment() {
             type='submit'
             disabled={loading}
             className='cursor-pointer mx-auto'>
-            {loading ? <Loader className='animate-spin' /> : "Upload"}
+            {loading ? <Loader className='animate-spin' /> : `${t.uploadButton}`}
           </Button>
         </div>
       </form>

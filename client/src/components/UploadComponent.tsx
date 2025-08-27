@@ -1,6 +1,8 @@
 "use client"
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react"
 import { Upload } from "lucide-react"
+import { useLanguageStore } from "@/store/useLanguageStore";
+import { translations } from "@/lib/translations";
 
 interface props {
     file: File | undefined;
@@ -8,6 +10,8 @@ interface props {
 }
 
 function UploadComponent({ file, setFile }: props) {
+    const {language} = useLanguageStore();
+    const t = translations[language];
     const [localFileURL, setLocalFileURL] = useState<string | undefined>(undefined)
     const fileInputRef = useRef<null | HTMLInputElement>(null)
 
@@ -44,7 +48,7 @@ function UploadComponent({ file, setFile }: props) {
                     <Upload
                         className="size-6 group-hover:scale-110 transition-all duration-200 cursor-pointer"
                     />
-                    <div>Upload File <p className="text-red-500">*Max 5 Mb</p></div>
+                    <div> {t.uploadFile} <p className="text-red-500">{t.uploadLimit}</p></div>
                 </div>
 
                 {localFileURL && file && (
