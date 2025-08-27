@@ -5,13 +5,15 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
+import AuthProvider from "./dashboard/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Assignments Dashboard",
   description: "Manage assignments easily",
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="antialiased">
@@ -27,7 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <h1 className="ml-2 font-semibold">Assignments Dashboard</h1>
             </header>
 
-            <main className="flex-1 p-6">{children}</main>
+            <main className="flex-1 p-6">
+                {children}
+            </main>
           </SidebarInset>
         </SidebarProvider>
       </body>

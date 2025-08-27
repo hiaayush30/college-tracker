@@ -24,8 +24,11 @@ export const registerUser = async (req: Request, res: Response): Promise<any> =>
         }
         const { email, password, username } = parsed.data;
         const existing = await User.findOne({
-            email
-        })
+            $or: [
+                { email: email },
+                { username: username }
+            ]
+        });
         if (existing) {
             return res.status(403).json({
                 error: "User already exists"
@@ -86,7 +89,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
             secure: true, // must be true in production
             sameSite: "none",   // requires secure:true if none or browser wil block it when in prod
             maxAge: 1000 * 600 * 60 * 24, // 1 day
-            path:"/"
+            path: "/"
         })
 
         return res.status(200).json({

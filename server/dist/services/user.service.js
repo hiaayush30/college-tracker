@@ -14,7 +14,10 @@ export const registerUser = async (req, res) => {
         }
         const { email, password, username } = parsed.data;
         const existing = await User.findOne({
-            email
+            $or: [
+                { email: email },
+                { username: username }
+            ]
         });
         if (existing) {
             return res.status(403).json({

@@ -2,8 +2,8 @@
 import SignupPage from '@/components/sign-up'
 import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
-import { toast } from 'sonner' 
+import axios, { AxiosError } from 'axios'
+import { toast } from 'sonner'
 
 function Signup() {
   const router = useRouter();
@@ -31,7 +31,12 @@ function Signup() {
       toast("Signup successful!");
       router.push("/login");
     } catch (error) {
-      toast("Something went wrong! Please try again.");
+      if (error instanceof AxiosError) {
+        toast(error.response?.data?.error)
+      }
+      else {
+        toast("Something went wrong! Please try again.");
+      }
     } finally {
       setLoading(false);
     }
