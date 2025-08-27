@@ -19,18 +19,18 @@ export enum SemesterEnum {
 export const addAssignmentSchema = z.object({
     type: z.string(),
     subject: z.string(),
-    due: z.date(),
+    due: z.coerce.date(), //This lets Zod accept a string and automatically convert it into a Date.
     program: z.enum(ProgramEnum),
     semester: z.enum(SemesterEnum),
-    url: z.string().optional()
+    url: z.string().nullable().optional()
 })
 
 export const updateAssignmentSchema = z.object({
     id: z.string(),
     type: z.string().optional(),
     subject: z.string().optional(),
-    due: z.date().optional(),
+    due: z.coerce.date().optional(),
     program: z.enum(ProgramEnum).optional(),
     semester: z.enum(SemesterEnum).optional(),
-    url: z.string().optional(),
+    url: z.string().optional().nullable(),
 })

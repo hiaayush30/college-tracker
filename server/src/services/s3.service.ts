@@ -4,13 +4,6 @@ import crypto from "crypto"
 import { getSignedUploadURLSchema } from "../schema/s3.schema.js"
 import type { Response, Request } from "express"
 
-const s3 = new S3Client({
-    region: process.env.AWS_BUCKET_REGION!,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
-    }
-})
 
 const acceptedTypes = [
     "application/pdf"
@@ -21,6 +14,13 @@ const generatedFileName = (bytes = 32) => crypto.randomBytes(bytes).toString("he
 
 export const getSignedUploadURL = async (req: Request, res: Response) => {
     try {
+        const s3 = new S3Client({
+            region: process.env.AWS_BUCKET_REGION!,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY!,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+            }
+        })
         const parsed = getSignedUploadURLSchema.safeParse(req.body);
         if (!parsed.success) {
             return res.status(400).json({
@@ -64,6 +64,13 @@ export const getSignedUploadURL = async (req: Request, res: Response) => {
 
 export const deleteObject = async (fileUrl: string) => {
     try {
+        const s3 = new S3Client({
+            region: process.env.AWS_BUCKET_REGION!,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY!,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+            }
+        })
         const key = fileUrl.split("/").slice(-1)[0]
         const deleteParams = {
             Bucket: process.env.AWS_BUCKET_NAME!,

@@ -5,9 +5,12 @@ import { Button } from '@/components/ui/button'
 import UploadComponent from '@/components/UploadComponent'
 import axios from 'axios'
 import { Loader } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React, { FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
 function AddAssignment() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [semester, setSemester] = useState("");
@@ -31,17 +34,20 @@ function AddAssignment() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!program || !semester || !date) {
-      return alert("All fields are required!");
+      toast("All fields are required!");
+      return;
     }
     setLoading(true)
     try {
       let fileUrl = "";
       if (file) {
         const checksum = await computeSHA256(file);
-        const { data } = await axios.post<{ url: string, fileUrl: string }>("/s3/getSignedUrl", {
+        const { data } = await axios.post<{ url: string, fileUrl: string }>(process.env.NEXT_PUBLIC_BE_URL + "/s3/getSignedUrl", {
           checksum,
           fileType: file.type,
-          size: file.size
+          size: file.size,
+        }, {
+          withCredentials: true
         })
 
         const { url } = data;
@@ -49,27 +55,27 @@ function AddAssignment() {
 
         await axios.put(url, file, {
           headers: {
-            "Content-Type": file.type
-          }
+            "Content-Type": file.type,
+          },
         })
-        alert("PDF uploaded to S3")
       }
-      await axios.post("/assignment", {
+      await axios.post(process.env.NEXT_PUBLIC_BE_URL + "/assignment", {
         type,
         subject,
         due: date,
         url: fileUrl == "" ? fileUrl : null,
         program,
         semester
+      }, {
+        withCredentials: true
       })
 
-      alert("Assignment Uploaded!")
+      toast("Assignment Uploaded!")
+      router.push("/dashboard");
 
     } catch (error) {
       console.log(error)
-      alert("Failed to upload")
-    }
-    finally {
+      toast("Failed to upload")
       setLoading(false)
     }
   }
@@ -107,7 +113,7 @@ function AddAssignment() {
             type='submit'
             disabled={loading}
             className='cursor-pointer mx-auto'>
-            {loading ? <Loader className='animate-spin'/> : "Upload"}
+            {loading ? <Loader className='animate-spin' /> : "Upload"}
           </Button>
         </div>
       </form>
