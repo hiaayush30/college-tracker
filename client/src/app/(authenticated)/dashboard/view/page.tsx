@@ -21,7 +21,8 @@ import { Button } from "@/components/ui/button"
 import { Edit, Loader2, Trash2 } from "lucide-react"
 import axios from "axios"
 import { toast } from "sonner"
-interface IAssignment {
+import { useRouter } from "next/navigation"
+export interface IAssignment {
   _id: string
   type: string
   subject: string
@@ -34,6 +35,7 @@ interface IAssignment {
   createdBy: string
 }
 function ViewAssignment() {
+  const router = useRouter();
   const { user } = useAuthStore()
   const [assignments, setAssignments] = useState<IAssignment[]>([])
   const [loading, setLoading] = useState(true)
@@ -139,7 +141,11 @@ function ViewAssignment() {
               </TableHeader>
               <TableBody>
                 {filteredAssignments.map((a) => (
-                  <TableRow key={a._id}>
+                  <TableRow 
+                  key={a._id}
+                  className="cursor-pointer"
+                  onClick={()=> router.push("/dashboard/view/"+a._id)}
+                  >
                     <TableCell className="font-medium">{a.subject}</TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge variant="secondary">{a.type}</Badge>
