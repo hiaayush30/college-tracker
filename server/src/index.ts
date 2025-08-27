@@ -11,7 +11,7 @@ dotenv.config()
 
 const app = express();
 app.use(cors({
-    origin: process.env.FE_URL,
+    origin: [process.env.FE_URL!],
     credentials:true //allow cookies
 }))
 app.use(express.json())

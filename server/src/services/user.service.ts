@@ -83,12 +83,13 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         })
         res.cookie("token", "Bearer_" + token, {
             httpOnly: true,  // cannot be accessed by JS 
-            secure: process.env.MODE == "prod" ? true : false,
+            secure: true, // must be true in production
+            sameSite: "none",   // requires secure:true if none or browser wil block it when in prod
             maxAge: 1000 * 600 * 60 * 24, // 1 day
-            sameSite: process.env.MODE == "prod" ? "none" : "lax" // requires secure:true or browser wil block it
+            path:"/"
         })
 
-        return res.status(201).json({
+        return res.status(200).json({
             message: "User logged in successfully!"
         })
 
@@ -104,8 +105,9 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 export const logout = async (req: Request, res: Response) => {
     res.clearCookie("token", {
         httpOnly: true,
-        secure: process.env.MODE == "prod" ? true : false,       // keep same settings you used when setting it
-        sameSite: process.env.MODE == "prod" ? "none" : "lax"    // must match the original cookie options
+        secure: true, // Must match the setting
+        sameSite: "none", // Must match the setting
+        path: "/"
     });
 
     res.json({ message: "Signed out successfully" });

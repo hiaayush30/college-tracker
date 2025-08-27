@@ -1,31 +1,35 @@
 "use client"
-import LoginPage from '@/components/login'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import React, { FormEvent, useState } from 'react'
+import LoginPage from '@/components/login';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import React, { FormEvent, useState } from 'react';
+import { toast } from "sonner";
 
 function Login() {
   const router = useRouter();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e:FormEvent) => {
+  const handleSubmit = async (e: FormEvent<Element>) => {
     e.preventDefault();
     if (!username || !password) {
-      return alert("username and password required")
+      toast("username and password required")
+      return;
     }
     try {
       setLoading(true);
-      await axios.post(process.env.NEXT_PUBLIC_BE_URL+"/user/login",{
+      await axios.post(process.env.NEXT_PUBLIC_BE_URL + "/user/login", {
         username,
         password
+      },{
+        withCredentials:true
       })
-      alert("Login successfull!");
+      toast("Login successfull!");
       router.push("/dashboard");
     } catch (error) {
-       alert("Invalid credentials!")
+      toast("Invalid credentials!")
     }
-    finally{
+    finally {
       setLoading(false)
     }
   }
