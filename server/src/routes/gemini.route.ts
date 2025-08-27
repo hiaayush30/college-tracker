@@ -30,7 +30,7 @@ geminiRouter.post('/process-assignment', async (req, res) => {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
 
     const result = await model.generateContent([
-      { text: prompt },
+      { text: prompt + "The response should be in points and properly formatted" },
       { inlineData: { data: fileBase64, mimeType: 'application/pdf' } }
     ]);
 
