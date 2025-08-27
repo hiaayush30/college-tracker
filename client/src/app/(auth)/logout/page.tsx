@@ -10,7 +10,7 @@ function LogoutPage() {
   useEffect(() => {
     const logout = async () => {
       try {
-        await axios.post("/user/logout", {}, { withCredentials: true })
+        await axios.post(process.env.NEXT_PUBLIC_BE_URL+"/user/logout", {}, { withCredentials: true })
         router.replace("/login") // redirect after logout
       } catch (error) {
         console.error("Logout failed:", error)

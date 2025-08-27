@@ -108,8 +108,9 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 export const logout = async (req: Request, res: Response) => {
     res.clearCookie("token", {
         httpOnly: true,
-        secure: true, // Must match the setting
-        sameSite: "none", // Must match the setting
+        secure: true,
+        sameSite: "none",
+        maxAge: 1000 * 600 * 60 * 24,
         path: "/"
     });
 
