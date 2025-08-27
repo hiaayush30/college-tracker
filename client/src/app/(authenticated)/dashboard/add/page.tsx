@@ -3,6 +3,7 @@ import { DatePicker } from '@/components/date-picker'
 import { SelectComponent } from '@/components/select'
 import { Button } from '@/components/ui/button'
 import UploadComponent from '@/components/UploadComponent'
+import { useAuthStore } from '@/store/useAuthStore'
 import axios from 'axios'
 import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -10,6 +11,7 @@ import React, { FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 
 function AddAssignment() {
+  const { user } = useAuthStore();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -33,6 +35,10 @@ function AddAssignment() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    if (!user || user.role == "user"){
+      toast("You need to be an admin to upload!")
+      return 
+    }
     if (!program || !semester || !date) {
       toast("All fields are required!");
       return;
@@ -63,7 +69,7 @@ function AddAssignment() {
         type,
         subject,
         due: date,
-        url: fileUrl == "" ? fileUrl : null,
+        url: fileUrl,
         program,
         semester
       }, {

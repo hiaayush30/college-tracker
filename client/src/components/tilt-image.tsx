@@ -42,7 +42,7 @@ export function TiltImage() {
       className="relative mx-auto mt-32 max-w-2xl cursor-pointer"
     >
       <motion.img
-        src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=1170&auto=format&fit=crop"
+        src="/landing.png"
         alt="Background"
         className="rounded-2xl border border-border/50 shadow-2xl object-cover 
           brightness-90 contrast-110 saturate-120 

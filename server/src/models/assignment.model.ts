@@ -14,7 +14,6 @@ const AssignmentSchema: Schema<IAssignment> = new Schema(
     {
         type: {
             type: String,
-            required: true,
             trim: true,
         },
         subject: {

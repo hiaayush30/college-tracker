@@ -70,3 +70,14 @@ export const deleteAssignment = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAssignments = async (req: Request, res: Response) => {
+  try {
+    const assignments = await Assignment.find();
+    return res.json({
+      assignments
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
