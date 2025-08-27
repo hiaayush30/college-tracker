@@ -1,14 +1,24 @@
-// import { LogoIcon } from '@/components/logo'
+"use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Loader } from 'lucide-react'
 import Link from 'next/link'
+import { Dispatch, FormEvent, SetStateAction } from 'react';
 
-export default function SignupPage() {
+interface props {
+    setUsername: Dispatch<SetStateAction<string>>;
+    setPassword: Dispatch<SetStateAction<string>>;
+    setEmail: Dispatch<SetStateAction<string>>;
+    handleSubmit: (e: FormEvent) => Promise<void>;
+    loading: boolean;
+}
+
+export default function SignupPage({ handleSubmit, loading, setEmail, setPassword, setUsername }: props) {
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
             <form
-                action=""
+                onSubmit={handleSubmit}
                 className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]">
                 <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
                     <div className="text-center">
@@ -24,10 +34,9 @@ export default function SignupPage() {
 
                     <div className="mt-6 space-y-6">
 
+                        {/* Username */}
                         <div className="space-y-2">
-                            <Label
-                                htmlFor="username"
-                                className="block text-sm">
+                            <Label htmlFor="username" className="block text-sm">
                                 Username
                             </Label>
                             <Input
@@ -35,12 +44,13 @@ export default function SignupPage() {
                                 required
                                 name="username"
                                 id="username"
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
+
+                        {/* Email */}
                         <div className="space-y-2">
-                            <Label
-                                htmlFor="email"
-                                className="block text-sm">
+                            <Label htmlFor="email" className="block text-sm">
                                 Email
                             </Label>
                             <Input
@@ -48,23 +58,18 @@ export default function SignupPage() {
                                 required
                                 name="email"
                                 id="email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
 
+                        {/* Password */}
                         <div className="space-y-0.5">
                             <div className="flex items-center justify-between">
-                                <Label
-                                    htmlFor="pwd"
-                                    className=" text-sm">
+                                <Label htmlFor="pwd" className=" text-sm">
                                     Password
                                 </Label>
-                                <Button
-                                    asChild
-                                    variant="link"
-                                    size="sm">
-                                    <Link
-                                        href="#"
-                                        className="link intent-info variant-ghost text-sm">
+                                <Button asChild variant="link" size="sm">
+                                    <Link href="#" className="link intent-info variant-ghost text-sm">
                                         Forgot your Password ?
                                     </Link>
                                 </Button>
@@ -75,20 +80,21 @@ export default function SignupPage() {
                                 name="pwd"
                                 id="pwd"
                                 className="input sz-md variant-mixed"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
 
-                        <Button className="w-full">Sign In</Button>
+                        {/* Submit */}
+                        <Button type="submit" className="w-full" disabled={loading}>
+                            {loading ? <Loader className='animate-spin'/> : "Sign Up"}
+                        </Button>
                     </div>
                 </div>
 
                 <div className="p-3">
                     <p className="text-accent-foreground text-center text-sm">
                         Have an account ?
-                        <Button
-                            asChild
-                            variant="link"
-                            className="px-2">
+                        <Button asChild variant="link" className="px-2">
                             <Link href="/login">Sign In</Link>
                         </Button>
                     </p>
