@@ -2,6 +2,7 @@
 
 export const translations = {
     en: {
+        notesgenerator:"Notes Generator",
         getStarted: "Get Started",
         whatToDo: "What do you want to do today?",
         addAssignments: "Add Assignments",
@@ -27,6 +28,7 @@ export const translations = {
     },
 
     ko: {
+        notesgenerator:"메모 발전기",
         getStarted: "시작하기",
         whatToDo: "오늘 무엇을 하시겠습니까?",
         addAssignments: "과제 추가",

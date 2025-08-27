@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const geminiRouter = Router();
 
-async function getS3FileAsBase64(s3Url:string) {
+async function getS3FileAsBase64(s3Url: string) {
   try {
     const response = await axios.get(s3Url, {
       responseType: 'arraybuffer'
@@ -41,5 +41,29 @@ geminiRouter.post('/process-assignment', async (req, res) => {
   } catch (error) {
     console.error('Gemini API call failed:', error);
     res.status(500).json({ error: 'Failed to process assignment with AI.' });
+  }
+});
+
+geminiRouter.post('/notes', async (req, res) => {
+  const { subject, topic } = req.body;
+
+  if (!subject || !topic) {
+    return res.status(400).json({ error: 'subject and topic are required.' });
+  }
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+    const result = await model.generateContent([
+      { text: `give me proper point wise notes with headings and examples for the topic ${topic} from the subject ${subject}` },
+    ]);
+
+    const response = await result.response;
+    const textResponse = response.text();
+
+    res.json({ result: textResponse });
+  } catch (error) {
+    console.error('Gemini API call failed:', error);
+    res.status(500).json({ error: 'Failed to fetch response.' });
   }
 });
