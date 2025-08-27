@@ -19,8 +19,9 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Loader2, Trash2 } from "lucide-react"
+import { Edit, Loader2, Trash2 } from "lucide-react"
 import axios from "axios"
+import { toast } from "sonner"
 
 interface IAssignment {
   _id: string
@@ -79,8 +80,9 @@ function ViewAssignment() {
         { withCredentials: true }
       )
       setAssignments((prev) => prev.filter((a) => a._id !== id))
+      toast("Assignment deleted!")
     } catch (err) {
-      alert("Failed to delete assignment")
+      toast("Failed to delete assignment")
     }
   }
 
@@ -171,14 +173,27 @@ function ViewAssignment() {
                     )}
                   </TableCell>
                   {user?.role === "admin" && (
-                    <TableCell>
+                    <TableCell className="flex gap-2">
+                      {/* Edit Button */}
                       <Button
-                      className="hover:scale-110 cursor-pointer"
+                        className="hover:scale-110 cursor-pointer"
+                        variant="outline"
+                        size="icon"
+                        asChild
+                      >
+                        <a href={`/assignments/edit/${a._id}`}>
+                          <Edit className="w-4 h-4" />
+                        </a>
+                      </Button>
+
+                      {/* Delete Button */}
+                      <Button
+                        className="hover:scale-110 cursor-pointer"
                         variant="destructive"
                         size="icon"
                         onClick={() => handleDelete(a._id)}
                       >
-                        <Trash2 />
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </TableCell>
                   )}

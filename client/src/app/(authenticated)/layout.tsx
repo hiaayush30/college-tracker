@@ -5,7 +5,6 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import AuthProvider from "./dashboard/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Assignments Dashboard",
