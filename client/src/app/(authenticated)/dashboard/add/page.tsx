@@ -95,7 +95,7 @@ function AddAssignment() {
       <form onSubmit={handleSubmit} className='my-5 flex flex-col gap-6  justify-center'>
         <div className='flex md:flex-row flex-col gap-3 items-start my-3'>
           <div className='text-xl'>
-            <label className='p-2' htmlFor='type'>{t.assignmentType}:</label>
+            <label className='p-2' htmlFor='type'>{t.assignmentType}</label>
             <input
               onChange={(e) => setType(e.target.value)}
               required id='type'
@@ -103,7 +103,7 @@ function AddAssignment() {
               type='text' />
           </div>
           <div className='text-xl'>
-            <label className='p-2' htmlFor='subject'>{t.subjectName}:</label>
+            <label className='p-2' htmlFor='subject'>{t.subjectName}</label>
             <input
               onChange={(e) => setSubject(e.target.value)}
               required
