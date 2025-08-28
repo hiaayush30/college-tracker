@@ -141,10 +141,10 @@ function ViewAssignment() {
               </TableHeader>
               <TableBody>
                 {filteredAssignments.map((a) => (
-                  <TableRow 
-                  key={a._id}
-                  className="cursor-pointer"
-                  onClick={()=> router.push("/dashboard/view/"+a._id)}
+                  <TableRow
+                    key={a._id}
+                    className="cursor-pointer"
+                    onClick={() => router.push("/dashboard/view/" + a._id)}
                   >
                     <TableCell className="font-medium">{a.subject}</TableCell>
                     <TableCell className="hidden sm:table-cell">
@@ -188,7 +188,10 @@ function ViewAssignment() {
                             className="hover:scale-110 cursor-pointer"
                             variant="destructive"
                             size="icon"
-                            onClick={() => handleDelete(a._id)}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleDelete(a._id)
+                            }}
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
