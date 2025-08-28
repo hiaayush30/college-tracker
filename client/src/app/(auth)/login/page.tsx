@@ -28,7 +28,7 @@ function Login() {
       }, {
         withCredentials: true
       })
-      localStorage.setItem("token", JSON.stringify(data.token))
+      localStorage.setItem("token", data.token)
       const user = jwt.decode(data.token) as IUserToken;
       setUser(user)
       toast("Login successfull!");
