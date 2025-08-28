@@ -12,7 +12,7 @@ export interface IUserToken {
 async function layout({ children }: { children: ReactNode }) {
     const reqCookies = await cookies();
     console.log("reqCookies:", reqCookies)
-    const token = reqCookies.get("token")?.value.split("_")[1]
+    const token = reqCookies.get("token")?.value
     let decoded: IUserToken | null = null;
     if (token) {
         try {

@@ -10,11 +10,11 @@ export const adminMiddleware = async (req: Request, res: Response, next: NextFun
         if (!token) {
             return res.status(401).json({ error: "Unauthorized: No token found" });
         }
-        const main = token.split("Bearer_")[1]
-        if (!main) {
+
+        if (!token) {
             return res.status(401).json({ error: "Unauthorized: Invalid token" });
         }
-        const decoded = jwt.verify(main, process.env.JWT_SECRET!) as JWTPayload
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload
         const user = await User.findById(decoded._id)
         if (!user || user.role !== "admin") {
             return res.status(401).json({ error: "Unauthorized" });

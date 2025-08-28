@@ -84,7 +84,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         }, process.env.JWT_SECRET!, {
             expiresIn: "1d"
         })
-        res.cookie("token", "Bearer_" + token, {
+        res.cookie("token",token, {
             httpOnly: true,  // cannot be accessed by JS 
             secure: true, // must be true in production
             sameSite: "none",   // requires secure:true if none or browser wil block it when in prod
