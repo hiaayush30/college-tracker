@@ -12,6 +12,7 @@ import { geminiRouter } from "./routes/gemini.route.js";
 dotenv.config()
 
 const app = express();
+app.set('trust proxy', 1); 
 app.use(cors({
     origin: [process.env.FE_URL!],
     credentials:true //allow cookies
