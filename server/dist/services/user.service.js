@@ -73,15 +73,9 @@ export const login = async (req, res) => {
         }, process.env.JWT_SECRET, {
             expiresIn: "1d"
         });
-        res.cookie("token", "Bearer_" + token, {
-            httpOnly: true, // cannot be accessed by JS 
-            secure: true, // must be true in production
-            sameSite: "none", // requires secure:true if none or browser wil block it when in prod
-            maxAge: 1000 * 600 * 60 * 24, // 1 day
-            path: "/"
-        });
         return res.status(200).json({
-            message: "User logged in successfully!"
+            message: "User logged in successfully!",
+            token
         });
     }
     catch (error) {

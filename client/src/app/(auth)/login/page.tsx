@@ -4,8 +4,12 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import { toast } from "sonner";
+import jwt from "jsonwebtoken";
+import { useAuthStore } from '@/store/useAuthStore';
+import { IUserToken } from '@/app/(authenticated)/dashboard/layout';
 
 function Login() {
+  const { setUser } = useAuthStore();
   const router = useRouter();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -24,7 +28,9 @@ function Login() {
       }, {
         withCredentials: true
       })
-      localStorage.setItem("token",JSON.stringify(data.token))
+      localStorage.setItem("token", JSON.stringify(data.token))
+      const user = jwt.decode(data.token) as IUserToken;
+      setUser(user)
       toast("Login successfull!");
       router.push("/dashboard");
     } catch (error) {
