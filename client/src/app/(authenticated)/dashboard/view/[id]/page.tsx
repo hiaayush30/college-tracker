@@ -49,7 +49,7 @@ export default function AssignmentPage({ params }: AssignmentPageProps) {
         fetchAssignment()
     }, [params.id])
 
-    const askChatGPT = async () => {
+    const askGemini = async () => {
         if (!assignment?.url) return
         setSending(true)
         setAiResponse(null)
@@ -143,7 +143,7 @@ export default function AssignmentPage({ params }: AssignmentPageProps) {
             <Card>
                 <CardHeader>
                     <CardTitle className="text-lg font-semibold">
-                        Ask ChatGPT about this file
+                        Ask Gemini about this file
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -155,7 +155,7 @@ export default function AssignmentPage({ params }: AssignmentPageProps) {
                     />
                     <Button
                         className="cursor-pointer"
-                        onClick={askChatGPT}
+                        onClick={askGemini}
                         disabled={!assignment.url || sending}
                     >
                         {sending ? <>Asking... <Bot className="animate-spin"/></> : <> Ask Gemini <Bot /></>}
