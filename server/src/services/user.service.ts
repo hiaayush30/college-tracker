@@ -89,7 +89,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
             secure: true, // must be true in production
             sameSite: "none",   // requires secure:true if none or browser wil block it when in prod
             maxAge: 1000 * 60 * 60 * 24, // 1 day,
-            partitioned:true
+            domain: process.env.FE_URL!
         })
 
         return res.status(200).json({
