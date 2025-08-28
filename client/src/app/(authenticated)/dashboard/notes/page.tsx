@@ -29,7 +29,11 @@ function NotesGeneratorPage() {
       const { data } = await axios.post<{ result: string }>(
         process.env.NEXT_PUBLIC_BE_URL + "/api/gemini/notes",
         { topic, subject },
-        { withCredentials: true }
+        {
+          withCredentials: true, headers: {
+            Authorization: localStorage.getItem("token") || null
+          }
+        }
       )
       setNotes(data.result)
     } catch (error) {

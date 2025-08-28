@@ -60,7 +60,11 @@ export default function AssignmentPage({ params }: AssignmentPageProps) {
                 {
                     s3Url: assignment.url,
                     prompt,
+                }, {
+                headers: {
+                    Authorization: localStorage.getItem("token") || null
                 }
+            }
             )
             setAiResponse(data.result)
         } catch (error) {
@@ -158,13 +162,13 @@ export default function AssignmentPage({ params }: AssignmentPageProps) {
                         onClick={askGemini}
                         disabled={!assignment.url || sending}
                     >
-                        {sending ? <>Asking... <Bot className="animate-spin"/></> : <> Ask Gemini <Bot /></>}
+                        {sending ? <>Asking... <Bot className="animate-spin" /></> : <> Ask Gemini <Bot /></>}
                     </Button>
 
                     {aiResponse && (
                         <div className="mt-3 p-3 border rounded-md bg-muted text-sm">
                             <strong>AI Response:</strong>
-                            <MarkdownRenderer content={aiResponse}/>
+                            <MarkdownRenderer content={aiResponse} />
                         </div>
                     )}
                 </CardContent>

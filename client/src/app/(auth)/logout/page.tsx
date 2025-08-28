@@ -1,23 +1,18 @@
 "use client"
 import React, { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import axios from "axios"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 function LogoutPage() {
   const router = useRouter()
 
   useEffect(() => {
     const logout = async () => {
-      try {
-        await axios.post(process.env.NEXT_PUBLIC_BE_URL+"/user/logout", {}, { withCredentials: true })
+        localStorage.clear()
+        toast("Logged out succefully!")
         router.replace("/login") // redirect after logout
-      } catch (error) {
-        console.error("Logout failed:", error)
-        router.replace("/dashboard")
-      }
     }
-
     logout()
   }, [router])
 

@@ -18,12 +18,13 @@ function Login() {
     }
     try {
       setLoading(true);
-      await axios.post(process.env.NEXT_PUBLIC_BE_URL + "/user/login", {
+      const { data } = await axios.post<{ token: string }>(process.env.NEXT_PUBLIC_BE_URL + "/user/login", {
         username,
         password
-      },{
-        withCredentials:true
+      }, {
+        withCredentials: true
       })
+      localStorage.setItem("token",JSON.stringify(data.token))
       toast("Login successfull!");
       router.push("/dashboard");
     } catch (error) {

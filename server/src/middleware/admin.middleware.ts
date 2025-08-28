@@ -6,7 +6,7 @@ import type { ObjectId } from "mongoose";
 
 export const adminMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies["token"] as string
+        const token = req.headers["authorization"] as string
         if (!token) {
             return res.status(401).json({ error: "Unauthorized: No token found" });
         }

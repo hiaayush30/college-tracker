@@ -49,7 +49,11 @@ function ViewAssignment() {
         setLoading(true)
         const res = await axios.get<{ assignments: IAssignment[] }>(
           process.env.NEXT_PUBLIC_BE_URL + "/assignment",
-          { withCredentials: true }
+          {
+            withCredentials: true, headers: {
+              Authorization: localStorage.getItem("token") || null
+            }
+          }
         )
         setAssignments(res.data.assignments)
       } catch (err) {
@@ -72,7 +76,11 @@ function ViewAssignment() {
     try {
       await axios.delete(
         `${process.env.NEXT_PUBLIC_BE_URL}/assignment/${id}`,
-        { withCredentials: true }
+        {
+          withCredentials: true, headers: {
+            Authorization: localStorage.getItem("token") || null
+          }
+        }
       )
       setAssignments((prev) => prev.filter((a) => a._id !== id))
       toast("Assignment deleted!")

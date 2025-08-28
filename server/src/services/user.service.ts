@@ -84,16 +84,10 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         }, process.env.JWT_SECRET!, {
             expiresIn: "1d"
         })
-        res.cookie("token",token, {
-            httpOnly: true,  // cannot be accessed by JS 
-            secure: true, // must be true in production
-            sameSite: "none",   // requires secure:true if none or browser wil block it when in prod
-            maxAge: 1000 * 60 * 60 * 24, // 1 day,
-            // domain: process.env.FE_URL!
-        })
 
         return res.status(200).json({
-            message: "User logged in successfully!"
+            message: "User logged in successfully!",
+            token
         })
 
     } catch (error) {

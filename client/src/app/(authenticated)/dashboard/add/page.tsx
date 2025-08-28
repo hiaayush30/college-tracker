@@ -57,7 +57,10 @@ function AddAssignment() {
           fileType: file.type,
           size: file.size,
         }, {
-          withCredentials: true
+          withCredentials: true,
+          headers:{
+            Authorization:localStorage.getItem("token") || null
+          }
         })
 
         const { url } = data;
@@ -77,7 +80,10 @@ function AddAssignment() {
         program,
         semester
       }, {
-        withCredentials: true
+        withCredentials: true,
+        headers:{
+            Authorization:localStorage.getItem("token") || null
+          }
       })
 
       toast("Assignment Uploaded!")
