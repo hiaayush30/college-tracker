@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
-import { Plus, List, User, Settings, LogOut, Notebook } from "lucide-react"
+import { Plus, List, User, Settings, LogOut, Notebook, MessageCircleMore } from "lucide-react"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useLanguageStore } from "@/store/useLanguageStore"
 import { translations } from "@/lib/translations"
@@ -28,6 +28,7 @@ export function AppSidebar() {
     { href: "/dashboard/add", label: t.addAssignment, icon: Plus },
     { href: "/dashboard/view", label: t.viewAssignments, icon: List },
     { href: "/dashboard/notes", label: t.notesgenerator, icon: Notebook },
+    { href: "/dashboard/chat-room", label: "Chat Room", icon: MessageCircleMore },
   ]
 
   const accountLinks = [

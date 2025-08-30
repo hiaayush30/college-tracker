@@ -17,7 +17,7 @@ export default function GetStarted() {
     const cardArray: ICard[] = [
         { href: "/dashboard/add", logo: <Cross size={24} aria-hidden />, title: t.addAssignments },
         { href: "/dashboard/view", logo: <Eye size={24} aria-hidden />, title: t.viewAssignments },
-        { href: "/dashboard/chat", logo: <MessageSquareDot size={24} aria-hidden />, title: t.globalChatroom },
+        { href: "/dashboard/chat-room", logo: <MessageSquareDot size={24} aria-hidden />, title: t.globalChatroom },
     ]
 
     return (
