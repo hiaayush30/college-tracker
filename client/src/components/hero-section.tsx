@@ -6,6 +6,7 @@ import { AnimatedGroup } from '@/components/ui/animated-group'
 import { HeroHeader } from './header'
 import { LogoCloud } from './logo-cloud'
 import { TiltImage } from './tilt-image'
+import { ImageCarousel } from './image-carousel'
 
 const transitionVariants = {
     item: {
@@ -68,7 +69,7 @@ export default function HeroSection() {
                                 }}
                                 className="mt-12">
 
-                               <TiltImage/>
+                               <ImageCarousel/>
 
                             </AnimatedGroup>
                         </div>
