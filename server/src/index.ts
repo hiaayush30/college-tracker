@@ -64,7 +64,7 @@ wss.on("connection", (ws) => {
             const obj = connectedClients.find(obj => obj.socket == ws);
             if (obj) {
                 connectedClients.forEach(conn => {
-                    conn.socket.send(JSON.stringify({ type: "chat", message: `${obj.username}:${parsed.message}` }))
+                    conn.socket.send(JSON.stringify({ type: "chat", message: `${obj.username}: ${parsed.message}` }))
                 })
             }
         }
