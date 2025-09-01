@@ -5,6 +5,7 @@ import type { addAssignmentSchema } from "../schema/assignment.schema.js";
 type AddAssignmentType = z.infer<typeof addAssignmentSchema>;
 
 export interface IAssignment extends Document, AddAssignmentType {
+    completed : ObjectId[]
     createdAt: Date;
     updatedAt: Date;
     createdBy: ObjectId
@@ -40,7 +41,11 @@ const AssignmentSchema: Schema<IAssignment> = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
-        }
+        },
+        completed:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }]
     },
     {
         timestamps: true, // createdAt, updatedAt

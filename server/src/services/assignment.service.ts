@@ -97,3 +97,38 @@ export const getAssignment = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" })
   }
 }
+
+export const toggleComplete = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body
+    if (!id || !userId) {
+      return res.status(403).json({
+        error: "assignment id and userId required!"
+      })
+    }
+    const assignment = await Assignment.findById(id);
+    if (!assignment) {
+      return res.status(403).json({
+        error: "assignment not found"
+      })
+    }
+    if (assignment.completed.includes(userId!)) {
+      assignment.completed = assignment.completed.filter(id => id != userId!);
+      await assignment.save();
+      return res.json({
+        message: "assignment unmarked!"
+      })
+    }
+    assignment.completed.push(userId);
+    await assignment.save();
+    return res.json({
+      message: "assignment completed!"
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "Internal server error"
+    })
+  }
+}

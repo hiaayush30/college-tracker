@@ -18,10 +18,11 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Edit, Loader2, Trash2 } from "lucide-react"
+import { Edit, Loader2, Trash2, CheckSquare } from "lucide-react"
 import axios from "axios"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+
 export interface IAssignment {
   _id: string
   type: string
@@ -33,37 +34,42 @@ export interface IAssignment {
   createdAt: string
   updatedAt: string
   createdBy: string
+  completed: string[]   // ✅ Added this field
 }
+
 function ViewAssignment() {
   const router = useRouter();
   const { user } = useAuthStore()
   const [assignments, setAssignments] = useState<IAssignment[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
   // sorting state
   const [programFilter, setProgramFilter] = useState<string>("")
   const [semesterFilter, setSemesterFilter] = useState<string>("")
-  useEffect(() => {
-    const fetchAssignments = async () => {
-      try {
-        setLoading(true)
-        const res = await axios.get<{ assignments: IAssignment[] }>(
-          process.env.NEXT_PUBLIC_BE_URL + "/assignment",
-          {
-            withCredentials: true, headers: {
-              Authorization: localStorage.getItem("token") || null
-            }
+
+  const fetchAssignments = async () => {
+    try {
+      setLoading(true)
+      const res = await axios.get<{ assignments: IAssignment[] }>(
+        process.env.NEXT_PUBLIC_BE_URL + "/assignment",
+        {
+          withCredentials: true, headers: {
+            Authorization: localStorage.getItem("token") || null
           }
-        )
-        setAssignments(res.data.assignments)
-      } catch (err) {
-        setError("failed to fetch assignments")
-      } finally {
-        setLoading(false)
-      }
+        }
+      )
+      setAssignments(res.data.assignments)
+    } catch (err) {
+      setError("failed to fetch assignments")
+    } finally {
+      setLoading(false)
     }
+  }
+  useEffect(() => {
     fetchAssignments()
   }, [])
+
   // filter assignments
   const filteredAssignments = assignments.filter((a) => {
     return (
@@ -71,6 +77,7 @@ function ViewAssignment() {
       (semesterFilter ? a.semester === semesterFilter : true)
     )
   })
+
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this assignment?")) return
     try {
@@ -88,6 +95,27 @@ function ViewAssignment() {
       toast("Failed to delete assignment")
     }
   }
+
+  const handleMarkComplete = async (id: string) => {
+    try {
+      const { data } = await axios.patch<{ message: string }>(
+        `${process.env.NEXT_PUBLIC_BE_URL}/assignment/toggle/${id}`,
+        {
+          userId: user?._id
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token") || null
+          }
+        }
+      )
+      toast.success(data.message)
+      fetchAssignments();
+    } catch (err) {
+      toast.error("Failed to mark as complete")
+    }
+  }
+
   return (
     <Card className="shadow-md">
       <CardHeader>
@@ -144,70 +172,97 @@ function ViewAssignment() {
                   <TableHead className="hidden md:table-cell">Semester</TableHead>
                   <TableHead className="hidden sm:table-cell">Due Date</TableHead>
                   <TableHead>File</TableHead>
+                  <TableHead>Completed</TableHead> {/* ✅ new column */}
                   {user?.role === "admin" && <TableHead>Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredAssignments.map((a) => (
-                  <TableRow
-                    key={a._id}
-                    className="cursor-pointer"
-                    onClick={() => router.push("/dashboard/view/" + a._id)}
-                  >
-                    <TableCell className="font-medium">{a.subject}</TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <Badge variant="secondary">{a.type}</Badge>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">{a.program}</TableCell>
-                    <TableCell className="hidden md:table-cell">{a.semester}</TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      {new Date(a.due).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      {a.url ? (
-                        <a
-                          href={a.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline"
-                        >
-                          View File
-                        </a>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </TableCell>
-                    {user?.role === "admin" && (
+                {filteredAssignments.map((a) => {
+                  return (
+                    <TableRow
+                      key={a._id}
+                      className="cursor-pointer"
+                      onClick={() => router.push("/dashboard/view/" + a._id)}
+                    >
+                      <TableCell className="font-medium">{a.subject}</TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <Badge variant="secondary">{a.type}</Badge>
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">{a.program}</TableCell>
+                      <TableCell className="hidden md:table-cell">{a.semester}</TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        {new Date(a.due).toLocaleDateString()}
+                      </TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
-                          {/* Edit Button */}
-                          <Button
-                            className="hover:scale-110 cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            asChild
+                        {a.url ? (
+                          <a
+                            href={a.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
                           >
-                            <a href={`/assignments/edit/${a._id}`}>
-                              <Edit className="w-4 h-4" />
-                            </a>
-                          </Button>
-                          {/* Delete Button */}
-                          <Button
-                            className="hover:scale-110 cursor-pointer"
-                            variant="destructive"
-                            size="icon"
+                            View File
+                          </a>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center">
+                        {a.completed.includes(user?._id as string) ? (
+                          <Badge
                             onClick={(e) => {
                               e.stopPropagation()
-                              handleDelete(a._id)
+                              handleMarkComplete(String(a._id))
+                            }}
+                            variant={"secondary"} className="flex items-center gap-1">
+                            <CheckSquare className="w-4 h-4 text-green-500" /> <span className="text-green-500">Done</span>
+                          </Badge>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-red-500 hover:text-red-600 cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleMarkComplete(String(a._id))
                             }}
                           >
-                            <Trash2 className="w-4 h-4" />
+                            Completed?
                           </Button>
-                        </div>
+                        )}
                       </TableCell>
-                    )}
-                  </TableRow>
-                ))}
+                      {user?.role === "admin" && (
+                        <TableCell>
+                          <div className="flex gap-2">
+                            {/* Edit Button */}
+                            <Button
+                              className="hover:scale-110 cursor-pointer"
+                              variant="outline"
+                              size="icon"
+                              asChild
+                            >
+                              <a href={`/assignments/edit/${a._id}`}>
+                                <Edit className="w-4 h-4" />
+                              </a>
+                            </Button>
+                            {/* Delete Button */}
+                            <Button
+                              className="hover:scale-110 cursor-pointer"
+                              variant="destructive"
+                              size="icon"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDelete(a._id)
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
           </div>
