@@ -19,7 +19,7 @@ export const Logo = ({ className }: { className?: string }) => {
           </linearGradient>
         </defs>
       </svg>
-      <h2 className="text-xl font-bold text-foreground">College Tracker</h2>
+      <h2 className="text-xl font-bold text-foreground">Kaam Tracker</h2>
     </div>
   )
 }

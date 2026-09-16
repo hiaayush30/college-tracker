@@ -28,7 +28,7 @@ export default function SignupPage({ handleSubmit, loading, setEmail, setPasswor
                             className="mx-auto block w-fit">
                             {/* <LogoIcon /> */}
                         </Link>
-                        <h1 className=" mb-1 mt-4 text-xl font-semibold">Create a College Tracker Account</h1>
+                        <h1 className=" mb-1 mt-4 text-xl font-semibold">Create a Kaam Tracker Account</h1>
                         <p className="text-sm">Welcome! Create an account to get started</p>
                     </div>
 
