@@ -26,7 +26,7 @@ export default function LoginPage({ handleSubmit, setPassword, setUsername,loadi
                             className="mx-auto block w-fit">
                             {/* <LogoIcon /> */}
                         </Link>
-                        <h1 className="mb-1 mt-4 text-xl font-semibold">Sign In to Kaam Tracker</h1>
+                        <h1 className="mb-1 mt-4 text-xl font-semibold">Sign In to Seekh AI</h1>
                         <p className="text-sm">Welcome back! Sign in to continue</p>
                     </div>
 

@@ -42,7 +42,7 @@ export default function HeroSection() {
                                 speedSegment={0.3}
                                 as="h1"
                                 className="text-balance text-5xl font-medium md:text-6xl">
-                                Kaam tracking made simple
+                                making academics simpler
                             </TextEffect>
                             <TextEffect
                                 per="line"
