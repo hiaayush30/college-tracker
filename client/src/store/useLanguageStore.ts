@@ -1,7 +1,7 @@
 "use client"
 import { create } from "zustand"
 
-type Language = "en" | "ko"
+type Language = "en" | "ko" | "hi"
 
 interface LanguageStore {
   language: Language

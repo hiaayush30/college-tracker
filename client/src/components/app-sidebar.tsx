@@ -84,7 +84,7 @@ export function AppSidebar() {
                 <ToggleButton />
                 <Select
                   value={language}
-                  onValueChange={(val) => setLanguage(val as "en" | "ko")}
+                  onValueChange={(val) => setLanguage(val as "en" | "ko" | "hi")}
                 >
                   <SelectTrigger className="w-[120px]">
                     <SelectValue placeholder="Language" />
@@ -92,6 +92,7 @@ export function AppSidebar() {
                   <SelectContent>
                     <SelectItem value="en">English</SelectItem>
                     <SelectItem value="ko">한국어</SelectItem>
+                    <SelectItem value="hi">हिन्दी</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

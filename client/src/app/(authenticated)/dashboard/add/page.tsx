@@ -120,7 +120,7 @@ function AddAssignment() {
         </div>
         <div className='flex flex-col md:flex-row items-start gap-5 md:items-end'>
           <DatePicker label={t.dueDate} date={date} open={open} setDate={setDate} setOpen={setOpen} />
-          <SelectComponent value={program} setValue={setProgram} args={["BCA", "BBA"]} defaultLabel='Class' label={t.enterProgram} />
+          <SelectComponent value={program} setValue={setProgram} args={["BCA", "BBA","MCA","MBA"]} defaultLabel='Class' label={t.enterProgram} />
           <SelectComponent value={semester} setValue={setSemester} args={["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]} defaultLabel='Semester' label={t.enterSemester} />
         </div>
         <div className='flex flex-col'>
