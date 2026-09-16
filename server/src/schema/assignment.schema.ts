@@ -2,7 +2,9 @@ import z from "zod";
 
 export enum ProgramEnum {
     BCA = "BCA",
-    BBA = "BBA"
+    BBA = "BBA",
+    MCA = "MCA",
+    MBA = "MBA"
 }
 
 export enum SemesterEnum {
